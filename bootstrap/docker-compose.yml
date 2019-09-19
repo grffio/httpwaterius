@@ -1,0 +1,45 @@
+version: '2'
+services:
+  acmesh:
+    image: neilpang/acme.sh
+    container_name: acmesh
+    command: 'daemon'
+    environment:
+      - GD_Key=GODADDY_KEY
+      - GD_Secret=GODADDY_SECRET
+    restart: always
+    networks:
+      - httpwaterius
+    volumes:
+      - '/opt/acmesh:/certs'
+      - '/opt/acmesh:/acme.sh'
+  acmeshexec:
+    image: docker:18-dind
+    command: 'docker exec acmesh --issue --dns dns_gd -d example.com -d *.example.com --key-file /certs/example.com.key --fullchain-file /certs/example.com.crt'
+    container_name: acmeshexec
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    depends_on:
+      - acmesh
+  httpwaterius:
+    image: grffio/httpwaterius
+    container_name: httpwaterius
+    restart: always
+    environment:
+      - HTTPWATERIUS_SERVICE_USERNAME=admin
+      - HTTPWATERIUS_SERVICE_PASSWORD=P@ssw0rd
+      - HTTPWATERIUS_SERVICE_DEVICES=Bathroom,Kitchen
+      - HTTPWATERIUS_INDEX_FILE=/opt/index.html
+      - HTTPWATERIUS_CERT=/certs/example.com.crt
+      - HTTPWATERIUS_KEY=/certs/example.com.key
+    ports:
+      - 80:8080/tcp
+      - 443:8080/tcp
+    volumes:
+      - '/opt/acmesh:/certs:ro'
+    networks:
+      - httpwaterius
+    depends_on:
+      - acmeshexec
+networks:
+  httpwaterius:

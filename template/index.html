@@ -1,0 +1,64 @@
+<!-- Copyright (c) grffio.
+
+This source code is licensed under the MIT license found in the
+LICENSE file in the root directory of this source tree. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .text {
+            color: #444444;
+        }
+
+        .mp {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light" style="background-color: #eee;">
+        <h3 class="text">Waterius</h3>
+    </nav>
+    <h2 class="text mp" style="text-align:center">Мои счетчики воды</h2>
+    <p class="text mp" style="text-align:center">показания счетчиков расхода воды</p>
+    {{- range . }}
+    <div class="d-flex justify-content-center mt-3">
+        <div class="card text-center" style="max-width: 75%">
+            <div class="card-header">
+                <h5><i class="fa fa-microchip" style="color: #444444"> {{ .Key }}<div style="font-size: 12px; color:darkgrey">Last data: {{ .LastCheck }}</div></i></h5>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title">
+                    <i class="fa fa-tint" style="color: dodgerblue; text-align: left" data-toggle="tooltip"
+                        title="+{{ .Delta0 }}"> {{ .Ch0 }} m<sup>3</i>
+                    <i style="color: transparent; text-align: center">__</i>
+                    <i class="fa fa-tint" style="color:tomato; text-align: right" data-toggle="tooltip"
+                        title="+{{ .Delta1 }}"> {{ .Ch1 }} m<sup>3</i>
+                </h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-battery-half" style="color:{{ .PowerColor }}">
+                            {{ .Voltage }} V</i></li>
+                </ul>
+            </div>
+            <div class="card-footer text-muted" style="font-size: 12px">Attiny: {{ .Version }} | ESP: {{ .VersionESP }}
+            </div>
+        </div>
+    </div>
+    {{- end}}
+</body>
+
+</html>

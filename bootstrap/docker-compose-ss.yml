@@ -1,0 +1,21 @@
+version: '2'
+services:
+  httpwaterius:
+    image: grffio/httpwaterius
+    container_name: httpwaterius
+    restart: always
+    environment:
+      - HTTPWATERIUS_SERVICE_USERNAME=admin
+      - HTTPWATERIUS_SERVICE_PASSWORD=P@ssw0rd
+      - HTTPWATERIUS_SERVICE_DEVICES=Bathroom,Kitchen
+      - HTTPWATERIUS_INDEX_FILE=/opt/index.html
+      - HTTPWATERIUS_CERT=/certs/server.crt
+      - HTTPWATERIUS_KEY=/certs/server.key
+    ports:
+      - 443:8080/tcp
+    volumes:
+      - './certs:/certs:ro'
+    networks:
+      - httpwaterius
+networks:
+  httpwaterius:
