@@ -29,7 +29,7 @@ var version = ""
 type config struct {
 	Debug     bool                       `envconfig:"debug" default:"false" desc:"a debug mode"`
 	Listen    string                     `envconfig:"listen" default:":8080" desc:"a host and port to listen on (<host>:<port>)"`
-	IndexFile string                     `envconfig:"index_file" required:"true" desc:"a path to an external index.html file (</opt/index.html>)"`
+	IndexFile string                     `envconfig:"index_file" default:"/opt/index.html" desc:"a path to an external index.html file (</opt/index.html>)"`
 	Cert      string                     `envconfig:"cert" desc:"path to SSL Certificate file (./server.crt)"`
 	Key       string                     `envconfig:"key" desc:"path to SSL Certificzte key file (./server.key)"`
 	Service   httpwaterius.ServiceConfig `envconfig:"service"`

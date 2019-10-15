@@ -29,7 +29,6 @@ services:
       - HTTPWATERIUS_SERVICE_USERNAME=admin
       - HTTPWATERIUS_SERVICE_PASSWORD=P@ssw0rd
       - HTTPWATERIUS_SERVICE_DEVICES=Bathroom,Kitchen
-      - HTTPWATERIUS_INDEX_FILE=/opt/index.html
       - HTTPWATERIUS_CERT=/certs/example.com.crt
       - HTTPWATERIUS_KEY=/certs/example.com.key
     ports:
