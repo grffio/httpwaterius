@@ -13,6 +13,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/i-core/rlog"
@@ -33,6 +34,7 @@ type Handler struct {
 }
 
 var devicesData map[string]Data
+var devicesDataMutex sync.RWMutex
 
 // NewHandler returns a new instance of Handler.
 func NewHandler(f string, s ServiceConfig) (*Handler, error) {
@@ -114,6 +116,8 @@ func newDataHandler(devices []string) http.HandlerFunc {
 				pwColor = "orange"
 			}
 			currentTime := time.Now().Format("15:04 02/01/06")
+			devicesDataMutex.Lock()
+			defer devicesDataMutex.Unlock()
 			devicesData[d.Key] = Data{
 				Key:        d.Key,
 				Delta0:     d.Delta0,
